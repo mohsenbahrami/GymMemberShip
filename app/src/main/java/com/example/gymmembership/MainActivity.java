@@ -21,8 +21,17 @@ Button btn_newMember,btn_checkin,btn_allMember;
         btn_newMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(),NewMember.class);
-                startActivity(intent);//Error in this Line/
+                Intent intent = new Intent(v.getContext(),PageMember.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_allMember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),PageAllMembers.class);
+                startActivity(intent);
+
             }
         });
     }
