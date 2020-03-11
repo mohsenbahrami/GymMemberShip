@@ -50,6 +50,7 @@
         android:layout_width="172dp"
         android:layout_height="48dp"
         android:text="TAKE PICTURE"
+        android:onClick="grabPicture"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.506"
@@ -268,6 +269,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="scan"
                 android:text="TAKE CODE" />
 
 
