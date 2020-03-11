@@ -1,6 +1,8 @@
 package com.example.gymmembership;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ public class CustomListAdapter extends ArrayAdapter<Member> {
 
         //getting the elements of my row view
 
+
         ImageView member_pic = (ImageView)row.findViewById(R.id.imageView_member);
         TextView member_fName = (TextView)row.findViewById(R.id.input_fName);
         TextView member_lName = (TextView)row.findViewById(R.id.input_fName);
@@ -38,7 +41,9 @@ public class CustomListAdapter extends ArrayAdapter<Member> {
         //CheckBox note_checkBox = (CheckBox)row.findViewById(R.id.note_checkBox);
 
         //setting these elements from the contact
-        //member_pic.setImageResource(current_member.getPIC);
+
+        Bitmap img = BitmapFactory.decodeByteArray(current_member.getImage(),0,current_member.getImage().length);
+        member_pic.setImageBitmap(img);
         member_fName.setText(current_member.getFirstName());
         member_lName.setText(current_member.getLastName());
         member_dateOfBith.setText(current_member.getDob());

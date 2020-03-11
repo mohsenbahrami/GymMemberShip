@@ -2,7 +2,8 @@ package com.example.gymmembership;
 
 public class Member {
     public static final String TABLE_NAME = "member_gym";
-    public static final String COLUMN_BARCODE = "id";
+    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_BARCODE = "barCode";
     public static final String COLUMN_FNAME = "name";
     public static final String COLUMN_LNAME = "lastName";
     public static final String COLUMN_DOB = "dob";
@@ -12,8 +13,10 @@ public class Member {
     public static final String COLUMN_PROVINCE = "province";
     public static final String COLUMN_TIMESTAMP = "timestamp";
     public static final String COLUMN_STATUS = "status";
+    public static final String COLUMN_IMAGE = "image";
 
-    private int barcode;
+    private int id;
+    private String barcode;
     private String firstName;
     private String lastName;
     private String dob;
@@ -22,14 +25,16 @@ public class Member {
     private String province;
     private int age;
     private String timestamp;
+    private byte[] image;
     private int status ;
 
 
     // Create table SQL query
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + "("
-                    + COLUMN_BARCODE + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + COLUMN_FNAME + " TEXT,"
+                    +COLUMN_BARCODE+"TEXT,"
                     + COLUMN_LNAME + " TEXT,"
                     + COLUMN_DOB + " TEXT,"
                     + COLUMN_AGE + " INT,"
@@ -37,21 +42,17 @@ public class Member {
                     + COLUMN_CITY+ " TEXT,"
                     + COLUMN_PROVINCE + " TEXT,"
                     + COLUMN_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                    +COLUMN_IMAGE+"BLOB,"
                     + COLUMN_STATUS + " INT DEFAULT 1"
                     + ")";
 
-    public Member() { }
-    public Member(int barcode, String firstName, String lastName, String dob, int age, String timestamp, int status) {
-        this.barcode = barcode;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dob = dob;
-        this.age = age;
-        this.timestamp = timestamp;
-        this.status = status;
+    public Member() {
     }
 
-    public Member(String firstName, String lastName, String dob, String address, String city, String province, int age, int barcode, String timestamp, int status) {
+
+    public Member(int id, String barcode, String firstName, String lastName, String dob, String address, String city, String province, int age, String timestamp, byte[] image, int status) {
+        this.id = id;
+        this.barcode = barcode;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
@@ -59,35 +60,28 @@ public class Member {
         this.city = city;
         this.province = province;
         this.age = age;
-        this.barcode = barcode;
         this.timestamp = timestamp;
+        this.image = image;
         this.status = status;
-    }
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + barcode +
-                ", name='" + firstName + '\'' +
-                ", name='" + lastName + '\'' +
-                ", name='" + dob + '\'' +
-                ", age=" + age +
-                ", name='" + address + '\'' +
-                ", name='" + city + '\'' +
-                ", name='" + province+ '\'' +
-                ", timestamp='" + timestamp + '\'' +
-                ", status='" + status + '\'' +
-                '}';
     }
 
     public static String getTableName() {
         return TABLE_NAME;
     }
 
-    public int getBarcode() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getBarcode() {
         return barcode;
     }
 
-    public void setBarcode(int barcode) {
+    public void setBarcode(String barcode) {
         this.barcode = barcode;
     }
 
@@ -155,6 +149,14 @@ public class Member {
         this.timestamp = timestamp;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
     public int getStatus() {
         return status;
     }
@@ -163,3 +165,4 @@ public class Member {
         this.status = status;
     }
 }
+

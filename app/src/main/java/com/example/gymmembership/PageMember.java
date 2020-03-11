@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -20,11 +21,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class PageMember extends AppCompatActivity {
@@ -33,6 +36,11 @@ public class PageMember extends AppCompatActivity {
     int REQUEST_TAKE_PHOTO = 3;
     String currentPhotoPath;
     ImageView imageView;
+    Context context;
+    CustomListAdapter adapter;
+    ArrayList<Member> members;
+    Member member;
+    ListView listView;
     String testFilePath = "/storage/emulated/0/Android/data/com.example.GymMemberShip/files/Pictures/JPEG_20200306_084907_2487466390706180963.jpg";
 
     @Override
@@ -40,6 +48,12 @@ public class PageMember extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_member);
         imageView = (ImageView) findViewById(R.id.imageView_member);
+         //adding to listView
+        members = new ArrayList<Member>();
+        adapter = new CustomListAdapter(this, members);
+        listView = (ListView) findViewById(R.id.ls_members);
+     //   listView.setAdapter(adapter);
+        context = this;
 
 
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
@@ -56,10 +70,9 @@ public class PageMember extends AppCompatActivity {
     }
 
 
-
     public void scan(View v){
         Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-        intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+        //intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
         startActivityForResult(intent, REQUEST_SCAN_CODE);
     }
 
@@ -100,6 +113,7 @@ public class PageMember extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+       super.onActivityResult(requestCode,resultCode, intent);
         if (requestCode == REQUEST_SCAN_CODE && resultCode == RESULT_OK) {
             String contents = intent.getStringExtra("SCAN_RESULT");
             String format = intent.getStringExtra("SCAN_RESULT_FORMAT");

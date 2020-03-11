@@ -46,7 +46,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         // `id` and `timestamp` will be inserted automatically.
         // no need to add them
+        values.put(Member.COLUMN_ID, member.getId());
         values.put(Member.COLUMN_BARCODE, member.getBarcode());
+        values.put(Member.COLUMN_IMAGE,member.getImage());
         values.put(Member.COLUMN_FNAME, member.getFirstName());
         values.put(Member.COLUMN_LNAME, member.getLastName());
         values.put(Member.COLUMN_DOB, member.getDob());
@@ -71,7 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(Member.TABLE_NAME,
-                new String[]{Member.COLUMN_BARCODE, Member.COLUMN_FNAME,Member.COLUMN_DOB, Member.COLUMN_AGE,Member.COLUMN_ADDRESS,Member.COLUMN_CITY,Member.COLUMN_PROVINCE, Member.COLUMN_TIMESTAMP, Member.COLUMN_STATUS},
+                new String[]{Member.COLUMN_BARCODE,Member.COLUMN_ID,Member.COLUMN_IMAGE, Member.COLUMN_FNAME,Member.COLUMN_DOB, Member.COLUMN_AGE,Member.COLUMN_ADDRESS,Member.COLUMN_CITY,Member.COLUMN_PROVINCE, Member.COLUMN_TIMESTAMP, Member.COLUMN_STATUS},
                 Member.COLUMN_BARCODE + "= ?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
@@ -80,6 +82,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // prepare note object
         Member member = new Member(
+                cursor.getInt(cursor.getColumnIndex(Member.COLUMN_ID)),
+                cursor.getString(cursor.getColumnIndex(Member.COLUMN_BARCODE)),
                 cursor.getString(cursor.getColumnIndex(Member.COLUMN_FNAME)),
                 cursor.getString(cursor.getColumnIndex(Member.COLUMN_LNAME)),
                 cursor.getString(cursor.getColumnIndex(Member.COLUMN_DOB)),
@@ -87,10 +91,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cursor.getString(cursor.getColumnIndex(Member.COLUMN_CITY)),
                 cursor.getString(cursor.getColumnIndex(Member.COLUMN_PROVINCE)),
                 cursor.getInt(cursor.getColumnIndex(Member.COLUMN_AGE)),
-                cursor.getInt(cursor.getColumnIndex(Member.COLUMN_BARCODE)),
                 cursor.getString(cursor.getColumnIndex(Member.COLUMN_TIMESTAMP)),
-                cursor.getInt(cursor.getColumnIndex(Member.COLUMN_STATUS))
-        );
+                cursor.getBlob(cursor.getColumnIndex(Member.COLUMN_IMAGE)),
+                cursor.getInt(cursor.getColumnIndex(Member.COLUMN_STATUS)));
 
         // close the db connection
         cursor.close();
@@ -112,6 +115,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
                 do {
                     Member member = new Member(
+                            cursor.getInt(cursor.getColumnIndex(Member.COLUMN_ID)),
+                            cursor.getString(cursor.getColumnIndex(Member.COLUMN_BARCODE)),
                             cursor.getString(cursor.getColumnIndex(Member.COLUMN_FNAME)),
                             cursor.getString(cursor.getColumnIndex(Member.COLUMN_LNAME)),
                             cursor.getString(cursor.getColumnIndex(Member.COLUMN_DOB)),
@@ -119,10 +124,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             cursor.getString(cursor.getColumnIndex(Member.COLUMN_CITY)),
                             cursor.getString(cursor.getColumnIndex(Member.COLUMN_PROVINCE)),
                             cursor.getInt(cursor.getColumnIndex(Member.COLUMN_AGE)),
-                            cursor.getInt(cursor.getColumnIndex(Member.COLUMN_BARCODE)),
                             cursor.getString(cursor.getColumnIndex(Member.COLUMN_TIMESTAMP)),
+                            cursor.getBlob(cursor.getColumnIndex(Member.COLUMN_IMAGE)),
                             cursor.getInt(cursor.getColumnIndex(Member.COLUMN_STATUS)));
-
                     memberList.add(member);
             } while (cursor.moveToNext());
         }
@@ -170,14 +174,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
-    public void hardDeleteStudent(int id) {
+    public void hardDeleteMember(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(Member.TABLE_NAME, Member.COLUMN_BARCODE + " = ?",
                 new String[]{String.valueOf(id)});
         db.close();
     }
 
-    public void softDeleteStudent(int id){
+    public void softDeleteMember(int id){
         // get writable database as we want to write data
         SQLiteDatabase db = this.getWritableDatabase();
 
