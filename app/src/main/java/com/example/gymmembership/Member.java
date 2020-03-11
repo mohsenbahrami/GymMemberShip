@@ -8,10 +8,10 @@ public class Member {
     String city;
     String province;
     int age;
-    long barcode;
+    int barcode;
     boolean status = false;
 
-    public Member(String firstName, String lastName, String dob, String address, String city, String province, int age, long barcode) {
+    public Member(String firstName, String lastName, String dob, String address, String city, String province, int age, int barcode) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
@@ -22,7 +22,7 @@ public class Member {
         this.barcode = barcode;
     }
 
-    public Member(String firstName, String lastName, String dob, String address, String city, String province, int age, long barcode, boolean status) {
+    public Member(String firstName, String lastName, String dob, String address, String city, String province, int age, int barcode, boolean status) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
@@ -93,11 +93,11 @@ public class Member {
         this.age = age;
     }
 
-    public long getBarcode() {
+    public int getBarcode() {
         return barcode;
     }
 
-    public void setBarcode(long barcode) {
+    public void setBarcode(int barcode) {
         this.barcode = barcode;
     }
 
